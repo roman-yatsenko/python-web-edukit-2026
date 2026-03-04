@@ -18,3 +18,23 @@ pipenv shell
 django-admin startproject core .
 django-admin startapp courses
 ```
+
+#### 📝 /core/settings.py
+
+```py=33
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'courses',
+]
+```
+
+```py=106
+LANGUAGE_CODE = 'uk-UA'
+
+TIME_ZONE = 'Europe/Kyiv'
+``` 
