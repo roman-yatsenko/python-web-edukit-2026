@@ -10,3 +10,11 @@ pipenv install
 pipenv install Django
 pipenv install Pillow
 ```
+
+Перезапуск терміналу
+
+```shell
+pipenv shell
+django-admin startproject core .
+django-admin startapp courses
+```
