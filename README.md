@@ -17,3 +17,11 @@ Subject 1
       Content 6 (url)
       ...
 ```
+
+## Використання фікстур для БД
+
+```shell
+py manage.py dumpdata courses --indent=2 --output=courses/fixtures/subjects.json
+# delete all subjects from DB
+py manage.py loaddata subjects.json
+```

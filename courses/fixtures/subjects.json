@@ -1,0 +1,26 @@
+[
+{
+  "model": "courses.subject",
+  "pk": 1,
+  "fields": {
+    "title": "Backend",
+    "slug": "backend"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 2,
+  "fields": {
+    "title": "Frontend",
+    "slug": "frontend"
+  }
+},
+{
+  "model": "courses.subject",
+  "pk": 3,
+  "fields": {
+    "title": "Design",
+    "slug": "design"
+  }
+}
+]
