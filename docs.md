@@ -37,4 +37,28 @@ INSTALLED_APPS = [
 LANGUAGE_CODE = 'uk-UA'
 
 TIME_ZONE = 'Europe/Kyiv'
-``` 
+```
+
+### Роздавання медіафайлів
+
+#### 📝 /core/settings.py
+
+```py=125
+# Media files
+
+MEDIA_URL = 'media/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+```
+
+#### 📝 core\urls.py
+
+```py=17
+from django.conf import settings
+from django.conf.urls.static import static
+```
+
+```py=26
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+```
