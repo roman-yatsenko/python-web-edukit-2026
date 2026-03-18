@@ -4,7 +4,6 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 from .mixins import OwnerCourseEditMixin, OwnerCourseMixin
-from .models import Course
 
 
 class HomeView(TemplateView):
@@ -12,17 +11,18 @@ class HomeView(TemplateView):
 
 
 class ManageCourseListView(OwnerCourseMixin, ListView):
+    permission_required = 'courses.view_course'
     template_name = 'courses/manage/course/list.html'
 
 
 class CourseCreateView(OwnerCourseEditMixin, CreateView):
-    pass
+    permission_required = 'courses.add_course'
 
 
 class CourseUpdateView(OwnerCourseEditMixin, UpdateView):
-    pass
+    permission_required = 'courses.change_course'
 
 
 class CourseDeleteView(OwnerCourseMixin, DeleteView):
+    permission_required = 'course.delete_course'
     template_name = 'courses/manage/course/delete.html'
-    
