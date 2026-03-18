@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block title %}
   {% if object %}
     Змінити курс "{{ object.title }}"
@@ -20,7 +22,7 @@
     <h3>Інформація про курс</h3>
     <form method="post">
       {% csrf_token %}
-      {{ form.as_p }}
+      {{ form|crispy }}
       <p>
         <input type="submit" value="Зберегти">
       </p>
