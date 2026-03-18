@@ -1,9 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView
+from django.views.generic.base import TemplateResponseMixin, View
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
+from .forms import ModuleFormSet
 from .mixins import OwnerCourseEditMixin, OwnerCourseMixin
+from .models import Course
 
 
 class HomeView(TemplateView):
@@ -26,3 +29,16 @@ class CourseUpdateView(OwnerCourseEditMixin, UpdateView):
 class CourseDeleteView(OwnerCourseMixin, DeleteView):
     permission_required = 'courses.delete_course'
     template_name = 'courses/manage/course/delete.html'
+
+
+class CourseModuleUpdateView(TemplateResponseMixin, View):
+    course = None
+    template_name = 'courses/manage/module/formset.html'
+
+    def get_formset(self, data=None):
+        return ModuleFormSet(instance=self.course, data=data)
+    
+    def dispatch(self, request, pk):
+        self.course = get_object_or_404(Course, id=pk, owner=request.user)
+        return super().dispatch(request, pk)
+    
