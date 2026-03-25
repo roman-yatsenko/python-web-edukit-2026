@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Тема {{ module.order|add:1 }}: {{ module.title }}
+{% endblock  %}
+
+{% block content %}
+{% with course=module.course %}
+  <h2>Курс "{{ course.title }}"</h2>
+  <div class="row">
+    <div class="col-3">
+      <h3>Теми</h3>
+      <ul>
+        {% for m in course.modules.all %}
+          <li data-id="{{ m.id }}">
+            {% if m == module %}👉 {% endif %}
+            <a href="{% url 'module_content_list' m.id %}" class="text-decoration-none">
+              <span>Тема {{ m.order|add:1 }}</span><br>
+              {{ m.title }}
+            </a>
+          </li>
+        {% empty %}
+          <li>Теми відсутні</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-9">
+      <h3>Тема {{ module.order|add:1 }}. {{module.title }}</h3>
+      <hr>
+      {% for content in module.contents.all %}
+        <div data-id="{{ content.id }}">
+          {% with item=content.item %}
+            <p>{{ item }}</p>
+            <a href="#">📝</a>
+            <form action="{% url 'module_content_delete' content.id %}" method="post">
+              {% csrf_token %}
+              <input type="submit" value="❌">
+            </form>
+          {% endwith %}
+        </div>
+      {% empty %}
+        <p>Контент відсутній.</p>
+      {% endfor %}
+      <h4>Додати:</h4>
+      {% comment %} Додавання контенту {% endcomment %}
+    </div>
+  </div>
+{% endwith %}
+{% endblock content %}
