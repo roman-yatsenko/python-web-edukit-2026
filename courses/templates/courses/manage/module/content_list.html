@@ -11,10 +11,12 @@
   <h2>Курс "{{ course.title }}"</h2>
   <div class="row">
     <div class="col-3">
-      <h3>Теми</h3>
-      <ul>
+      <h3>
+        <a href="{% url 'course_module_update' course.id %}" class="text-decoration-none">📝</a> Теми
+      </h3>
+      <ul class="list-group">
         {% for m in course.modules.all %}
-          <li data-id="{{ m.id }}">
+          <li data-id="{{ m.id }}" class="list-group-item {% if m == module %} active {% endif %}">
             {% if m == module %}👉 {% endif %}
             <a href="{% url 'module_content_list' m.id %}" class="text-decoration-none">
               <span>Тема {{ m.order|add:1 }}</span><br>
@@ -25,34 +27,40 @@
           <li>Теми відсутні</li>
         {% endfor %}
       </ul>
+      <p class="mt-2">
+        <a href="{% url 'course_module_update' course.id %}" class="btn btn-outline-primary btn-sm text-decoration-none">
+          📝 Змінити теми
+        </a>
+      </p>
     </div>
     <div class="col-9">
       <h3>Тема {{ module.order|add:1 }}. {{module.title }}</h3>
       <hr>
       {% for content in module.contents.all %}
-        <div data-id="{{ content.id }}">
+        <div data-id="{{ content.id }}" class="border border-secondary border-1 rounded p-2 mb-1 d-flex justify-content-between align-items-center">
           {% with item=content.item %}
-            <p>{{ item }} ({{ item|model_name|capfirst }})</p>
-            <a href="{% url 'module_content_update' module.id item|model_name item.id %}">📝</a>
-            <form action="{% url 'module_content_delete' content.id %}" method="post">
-              {% csrf_token %}
-              <input type="submit" value="❌">
-            </form>
+            <span>{{ item }} ({{ item|model_name|capfirst }})</span>
+            <span>
+              <a href="{% url 'module_content_update' module.id item|model_name item.id %}" class="btn btn-outline-secondary">
+                ✏️ Змінити
+              </a>
+              <form action="{% url 'module_content_delete' content.id %}" method="post" class="d-inline-block">
+                {% csrf_token %}
+                <input type="submit" value="🗑️ Видалити" class="btn btn-outline-danger">
+              <span>
           {% endwith %}
         </div>
       {% empty %}
         <p>Контент відсутній.</p>
       {% endfor %}
       <h5>Додати:</h5>
-      {% comment %} {% with content_types=["text", "image", "file", "url", "video"] %}
-        <ul>
-          {% for content in content_types %}
-            <li>
-              <a href="{% url 'module_content_create' module.id content %}">{{ content|capfirst }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-      {% endwith %} {% endcomment %}
+      <ul class="list-group list-group-horizontal">
+        {% for content in content_types %}
+          <li class="list-group-item">
+            <a href="{% url 'module_content_create' module.id content %}" class="text-decoration-none">{{ content|capfirst }}</a>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
   </div>
 {% endwith %}
