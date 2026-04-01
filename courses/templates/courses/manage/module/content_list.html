@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load course %}
+
 {% block title %}
   Тема {{ module.order|add:1 }}: {{ module.title }}
 {% endblock  %}
@@ -30,8 +32,8 @@
       {% for content in module.contents.all %}
         <div data-id="{{ content.id }}">
           {% with item=content.item %}
-            <p>{{ item }}</p>
-            <a href="#">📝</a>
+            <p>{{ item }} ({{ item|model_name|capfirst }})</p>
+            <a href="{% url 'module_content_update' module.id item|model_name item.id %}">📝</a>
             <form action="{% url 'module_content_delete' content.id %}" method="post">
               {% csrf_token %}
               <input type="submit" value="❌">
@@ -41,8 +43,16 @@
       {% empty %}
         <p>Контент відсутній.</p>
       {% endfor %}
-      <h4>Додати:</h4>
-      {% comment %} Додавання контенту {% endcomment %}
+      <h5>Додати:</h5>
+      {% comment %} {% with content_types=["text", "image", "file", "url", "video"] %}
+        <ul>
+          {% for content in content_types %}
+            <li>
+              <a href="{% url 'module_content_create' module.id content %}">{{ content|capfirst }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endwith %} {% endcomment %}
     </div>
   </div>
 {% endwith %}
