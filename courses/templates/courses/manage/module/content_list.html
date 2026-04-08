@@ -14,12 +14,12 @@
       <h3>
         <a href="{% url 'course_module_update' course.id %}" class="text-decoration-none">📝</a> Теми
       </h3>
-      <ul class="list-group">
+      <ul id="modules" class="list-group">
         {% for m in course.modules.all %}
-          <li data-id="{{ m.id }}" class="list-group-item {% if m == module %} active {% endif %}">
+          <li data-id="{{ m.id }}" class="list-group-item {% if m == module %} active {% endif %}" draggable="true">
             {% if m == module %}👉 {% endif %}
             <a href="{% url 'module_content_list' m.id %}" class="text-decoration-none">
-              <span>Тема {{ m.order|add:1 }}</span><br>
+              Тема <span class="order">{{ m.order|add:1 }}</span><br>
               {{ m.title }}
             </a>
           </li>
@@ -65,3 +65,30 @@
   </div>
 {% endwith %}
 {% endblock content %}
+
+{% block include_js %}
+  {{ block.super }}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5sortable/0.14.0/html5sortable.min.js" ></script>
+{% endblock  %}
+
+{% block domready %}
+  var options = {
+    method: 'POST',
+    mode: 'same-origin',
+  }
+  const moduleOrderUrl = "{% url 'module_order' %}";
+
+  sortable('#modules', {
+    forcePlaceHolderSize: true,
+    placeholderClass: 'placeholder'
+  })[0].addEventListener('sortupdate', function(e) {
+    modulesOrder = {};
+    var modules = document.querySelectorAll('#modules li');
+    modules.forEach(function(module, index) {
+      modulesOrder[module.dataset.id] = index;
+      module.querySelector(".order").innerHTML = index + 1;
+      options['body'] = JSON.stringify(modulesOrder);
+      fetch(moduleOrderUrl, options)
+    })
+  })
+{% endblock  %}
