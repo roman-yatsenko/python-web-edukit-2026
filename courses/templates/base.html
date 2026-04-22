@@ -23,11 +23,21 @@
       <div class="collapse navbar-collapse" id="mainNavbar">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'course_list' %}">Головна</a>
+            <a
+              class="nav-link {% if request.resolver_match.url_name == 'course_list' %}active{% endif %}"
+              href="{% url 'course_list' %}"
+            >
+              Головна
+            </a>
           </li>
           {% if request.user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link active" href="{% url 'manage_course_list' %}">Мої курси</a>
+              <a
+                class="nav-link {% if request.resolver_match.url_name == 'manage_course_list' %}active{% endif %}"
+                href="{% url 'manage_course_list' %}"
+              >
+                Мої курси
+              </a>
             </li>
             <li class="nav-item">
               <form method="post" action="{% url 'logout' %}">
@@ -37,7 +47,7 @@
             </li>
           {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}">Вхід</a>
+              <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">Вхід</a>
             </li>
           {% endif %}
         </ul>
