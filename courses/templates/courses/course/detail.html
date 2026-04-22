@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load course %}
+
 {% block title %}
   {{ object.title }}
 {% endblock  %}
@@ -20,8 +22,8 @@
 
         <div class="card border-2">
           <div class="card-body">
-            <h5 class="card-title mb-3">Опис курсу</h5>
-            <div class="card-text">{{ object.overview|linebreaks }}</div>
+            <h3 class="card-title mb-3 border-bottom">Опис курсу</h5>
+            <div class="card-text">{{ object.overview|markdown }}</div>
           </div>
         </div>
       </div>

@@ -132,7 +132,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Authentication links
 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'course_list'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
