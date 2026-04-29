@@ -135,7 +135,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Authentication links
 
-LOGIN_REDIRECT_URL = reverse_lazy('student_course_list')
+LOGIN_REDIRECT_URL = reverse_lazy('course_list')
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
