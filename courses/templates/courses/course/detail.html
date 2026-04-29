@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load course %}
+{% load crispy_forms_tags %}
 
 {% block title %}
   {{ object.title }}
@@ -22,8 +23,22 @@
 
         <div class="card border-2">
           <div class="card-body">
-            <h3 class="card-title mb-3 border-bottom">Опис курсу</h5>
+            <h3 class="card-title mb-3 border-bottom">Опис курсу</h3>
             <div class="card-text">{{ object.overview|markdown }}</div>
+
+            <div class="mt-4 pt-3 border-top">
+              {% if request.user.is_authenticated %}
+                <h5 class="mb-3">📝 Зарахування на курс</h5>
+                <form action="{% url 'student_enroll_course' %}" method="post">
+                  {% csrf_token %}
+                  {{ enroll_form|crispy }}
+                  <button type="submit" class="btn btn-primary">✅ Зарахуватися на курс</button>
+                </form>
+              {% else %}
+                <p class="text-muted mb-3">Щоб розпочати навчання, зареєструйтеся у системі:</p>
+                <a href="{% url 'student_registration' %}" class="btn btn-primary">👤 Зареєструватися для зарахування</a>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>
